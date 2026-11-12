@@ -1,0 +1,45 @@
+#!/bin/sh
+# Forced command for the restricted ainnotate-deploy SSH account: accepts a gzipped tar of the
+# built site on stdin, publishes it as a new release and switches `current` atomically.
+
+set -eu
+umask 022
+
+if [ "${SSH_ORIGINAL_COMMAND:-}" != "deploy" ]; then
+	echo "Only the website deployment command is allowed." >&2
+	exit 1
+fi
+
+base=/var/www/ainnotate.net
+releases="$base/releases"
+release="$(date -u +%Y%m%dT%H%M%SZ)-$$"
+staging="$releases/.$release.tmp"
+final="$releases/$release"
+
+cleanup() {
+	if [ -d "$staging" ]; then
+		rm -rf -- "$staging"
+	fi
+}
+trap cleanup EXIT HUP INT TERM
+
+mkdir -p "$staging"
+tar -xzf - -C "$staging" --no-same-owner --no-same-permissions
+
+find "$staging" -type d -exec chmod 755 {} +
+find "$staging" -type f -exec chmod 644 {} +
+
+mv "$staging" "$final"
+ln -sfn "releases/$release" "$base/current.next"
+mv -Tf "$base/current.next" "$base/current"
+
+find "$releases" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' \
+	| sort -nr \
+	| sed -n '6,$p' \
+	| cut -d' ' -f2- \
+	| while IFS= read -r old_release; do
+		[ -n "$old_release" ] && rm -rf -- "$old_release"
+	done
+
+trap - EXIT HUP INT TERM
+printf 'Deployed %s\n' "$release"

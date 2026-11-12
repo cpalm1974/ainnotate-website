@@ -1,0 +1,58 @@
+name: Deploy website
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ainnotate-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check website
+        run: npm run check
+
+      - name: Build website
+        run: npm run build
+
+      - name: Configure deployment key
+        shell: bash
+        env:
+          AINNOTATE_DEPLOY_SSH_KEY: ${{ secrets.AINNOTATE_DEPLOY_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$AINNOTATE_DEPLOY_SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          chmod 600 "$HOME/.ssh/id_ed25519"
+          install -m 644 ops/ssh_known_hosts "$HOME/.ssh/known_hosts"
+
+      - name: Deploy atomically
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -C dist -czf - . \
+            | ssh -o BatchMode=yes -o IdentitiesOnly=yes \
+                -i "$HOME/.ssh/id_ed25519" \
+                ainnotate-deploy@ssh.ainnotate.net deploy

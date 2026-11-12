@@ -1,0 +1,266 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import SidebarScene from '../components/SidebarScene.astro';
+
+const steps = [
+  {
+    title: 'Kontext erkennen',
+    text: 'AInnotate sieht, welche Anwendung, welches Fenster und welcher Bildschirm gerade aktiv ist – von der SAP-Transaktion bis zum Ordner im Explorer.',
+  },
+  {
+    title: 'Wissen finden',
+    text: 'Die passende Seite aus Ihren OneNote-Notizbüchern erscheint sofort. Diese Suche läuft lokal und braucht keinen KI-Aufruf.',
+  },
+  {
+    title: 'Fragen und handeln',
+    text: 'Sie fragen mit vollem Kontext. Auf Wunsch füllt die KI Felder aus, drückt Schaltflächen oder navigiert – jede Aktion bleibt sichtbar.',
+  },
+];
+
+const features = [
+  {
+    title: 'Kontext statt Copy-and-paste',
+    text: 'Keine Bildschirmfotos, kein Abtippen: AInnotate liest Fenster, Felder und Tabellen direkt aus der Anwendung.',
+  },
+  {
+    title: 'Dokumentation am Arbeitsplatz',
+    text: 'Persönliche und Team-Notizbücher werden nach Relevanz durchsucht. Die genaueste Seite gewinnt.',
+  },
+  {
+    title: 'Die KI arbeitet mit',
+    text: 'Transaktionen starten, Felder füllen, Tabellenzeilen pflegen. Ausgeführte Aktionen lassen sich nachvollziehen und erneut ausführen.',
+  },
+  {
+    title: 'Prompts aus OneNote',
+    text: 'Markierte Fragen werden zu Ein-Klick-Schaltflächen, markierte Hinweise steuern die KI im Hintergrund.',
+  },
+  {
+    title: 'Gemeinsame Wissensbasis',
+    text: 'PDF, Word, Excel oder ganze Notizbücher, inklusive Texterkennung in Bildern, als durchsuchbares Teamwissen.',
+  },
+  {
+    title: 'Assistenten für jedes Team',
+    text: 'Persönliche, geteilte und projektspezifische Assistenten, im Chat mit @ wechselbar und in OneNote definiert.',
+  },
+  {
+    title: 'Ergebnisse bleiben erhalten',
+    text: 'Gespräche werden nach jeder Antwort in ein privates oder geteiltes Notizbuch geschrieben.',
+  },
+  {
+    title: 'Offen für Erweiterungen',
+    text: 'Ein Plugin-SDK unter Apache-2.0 für C#, dazu Python-Plugins für schnelle eigene Werkzeuge.',
+  },
+];
+
+const integrations = [
+  { name: 'SAP GUI', text: 'Bildschirme, Felder, Tabellen und ALV-Grids lesen und bedienen, Notizbücher passend zu System und Mandant.' },
+  { name: 'SAP-Entwicklung', text: 'ABAP-Quelltexte, Klassen, Funktionsbausteine und Transporte untersuchen, Daten lesend per OpenSQL prüfen.' },
+  { name: 'Jira Cloud', text: 'Tickets in natürlicher Sprache finden, Details zusammenfassen und Kommentare verfassen.' },
+  { name: 'Automic (UC4)', text: 'Jobs, Ausführungshistorie und Zeitpläne abfragen, ohne die Konsole zu wechseln.' },
+  { name: 'Explorer und Dateien', text: 'Dateien finden, umbenennen und als Wissen hochladen, Excel-Tabellen auswerten.' },
+  { name: 'Eigene Plugins', text: 'Fachanwendungen über das SDK anbinden – auch als proprietäres Plugin im eigenen Haus.' },
+];
+---
+
+<SiteLayout
+  title="AInnotate – KI-Seitenleiste für Windows mit OneNote-Wissen"
+  description="AInnotate verbindet die aktive Windows-Anwendung, das Wissen Ihres Teams in OneNote und KI in einer Seitenleiste. Besonders stark in SAP."
+  page="home"
+>
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div class="hero-text">
+        <p class="kicker"><span class="kicker-dot"></span>KI-Seitenleiste für Windows</p>
+        <h1>Ihre Anwendung. Ihr Wissen. Ihre KI. <span class="accent">In einem Kontext.</span></h1>
+        <p class="hero-copy">
+          AInnotate sitzt neben der Anwendung, mit der Sie gerade arbeiten. Es erkennt, wo Sie sind,
+          zeigt die passende Dokumentation Ihres Teams aus OneNote und lässt die KI direkt mitarbeiten –
+          besonders dort, wo Software komplex ist, wie in SAP.
+        </p>
+        <div class="button-row">
+          <a class="button button-primary" href="#kontakt">Testzugang anfragen</a>
+          <a class="button button-secondary" href="#ablauf">So funktioniert’s</a>
+        </div>
+      </div>
+      <SidebarScene />
+    </div>
+  </section>
+
+  <section class="section problem">
+    <div class="shell problem-grid">
+      <p class="eyebrow">Das Problem</p>
+      <div>
+        <h2 class="section-heading">Ein Chatbot weiß nicht, woran Sie arbeiten. Ihre Doku liegt woanders.</h2>
+        <p class="lead">
+          Wer komplexe Unternehmenssoftware bedient, kopiert Fehlermeldungen in Chatfenster, sucht
+          Anleitungen in Wikis und erklärt der KI jedes Mal von vorn, was auf dem Bildschirm steht.
+          AInnotate dreht das um: Das Wissen kommt zur Person, genau an der Stelle, an der es gebraucht wird.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="ablauf">
+    <div class="shell">
+      <div class="section-head">
+        <p class="eyebrow">So funktioniert’s</p>
+        <h2 class="section-heading">Drei Schritte, ohne Kontextwechsel.</h2>
+      </div>
+      <ol class="steps">
+        {steps.map((step, index) => (
+          <li class="step">
+            <span class="step-index">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section-tinted" id="funktionen">
+    <div class="shell">
+      <div class="section-head">
+        <p class="eyebrow">Funktionen</p>
+        <h2 class="section-heading">Gebaut für Menschen, die mit Wissen arbeiten.</h2>
+      </div>
+      <ul class="feature-grid">
+        {features.map((feature) => (
+          <li class="feature">
+            <h3>{feature.title}</h3>
+            <p>{feature.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section onenote">
+    <div class="shell onenote-grid">
+      <div>
+        <p class="eyebrow">OneNote als Wissensbasis</p>
+        <h2 class="section-heading">Ihre Dokumentation wird zur Bedienoberfläche.</h2>
+        <p class="lead">
+          Teams pflegen ihr Wissen dort weiter, wo es schon liegt. AInnotate macht daraus kontextbezogene
+          Hilfe: Seiten werden passend zur Anwendung gefunden, Kategorien in OneNote steuern das Verhalten
+          der KI.
+        </p>
+      </div>
+      <dl class="tag-list">
+        <div class="tag-row">
+          <dt><span class="tag tag-question">Frage</span></dt>
+          <dd>Wird zur Schaltfläche in der Seitenleiste. Ein Klick stellt die Frage im aktuellen Kontext.</dd>
+        </div>
+        <div class="tag-row">
+          <dt><span class="tag tag-hint">KI-Hinweis</span></dt>
+          <dd>Wird der KI als Leitplanke mitgegeben, zum Beispiel Regeln oder Namenskonventionen des Teams.</dd>
+        </div>
+        <div class="tag-row">
+          <dt><span class="tag tag-chat">Verlauf</span></dt>
+          <dd>Gespräche landen als Seiten im Notizbuch und bleiben für das Team auffindbar.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section-tinted" id="integrationen">
+    <div class="shell">
+      <div class="section-head">
+        <p class="eyebrow">Integrationen</p>
+        <h2 class="section-heading">Tief in den Werkzeugen, die Ihr Betrieb wirklich nutzt.</h2>
+      </div>
+      <ul class="integration-grid">
+        {integrations.map((item) => (
+          <li class="integration">
+            <h3>{item.name}</h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="vertrauen">
+    <div class="shell trust-grid">
+      <div>
+        <p class="eyebrow">KI-Anbindung und Datenschutz</p>
+        <h2 class="section-heading">Sie wählen, wohin Ihre Daten gehen.</h2>
+        <p class="lead">
+          AInnotate arbeitet mit OpenAI, Azure OpenAI oder einem Kaldur Server Ihres Unternehmens. Die
+          Daten einer Anfrage gehen ausschließlich an den Anbieter, den Sie konfigurieren.
+        </p>
+      </div>
+      <ul class="trust-list">
+        <li><strong>Lokale Wissenssuche.</strong> Die OneNote-Suche läuft auf Ihrem Rechner. Die KI wird erst kontaktiert, wenn Sie fragen.</li>
+        <li><strong>Geschützte Zugangsdaten.</strong> API-Schlüssel werden verschlüsselt gespeichert, Plugin-Zugänge über Windows DPAPI.</li>
+        <li><strong>Zentral mit Kaldur.</strong> Mit einem Kaldur Server bleiben Schlüssel auf dem Server, riskante Aktionen werden dort zur Freigabe vorgelegt.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section kaldur-band">
+    <div class="shell kaldur-grid">
+      <p class="eyebrow">AInnotate und Kaldur</p>
+      <div>
+        <h2>Der Windows-Begleiter der Kaldur-Plattform.</h2>
+        <p class="lead">
+          AInnotate verbindet sich mit Kaldur Server: Assistenten, Berechtigungen und Modelle werden
+          zentral verwaltet, lokale Werkzeuge bleiben auf dem Arbeitsplatz. Wer plattformübergreifend
+          arbeiten möchte – auf Desktop, im Web und mobil –, findet in Kaldur die Weiterentwicklung.
+        </p>
+        <a class="text-link" href="https://kaldur.net">Kaldur kennenlernen <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="lizenz">
+    <div class="shell">
+      <div class="section-head">
+        <p class="eyebrow">Lizenz und Voraussetzungen</p>
+        <h2 class="section-heading">Fair lizenziert. Schnell eingerichtet.</h2>
+      </div>
+      <div class="license-grid">
+        <article class="license-card">
+          <p class="license-kicker">Privat und gemeinnützig</p>
+          <h3>Kostenlos</h3>
+          <p>
+            Für Privatpersonen sowie gemeinnützige, Bildungs-, Forschungs- und öffentliche Einrichtungen
+            unter der PolyForm Noncommercial License 1.0.0.
+          </p>
+        </article>
+        <article class="license-card license-card-featured">
+          <p class="license-kicker">Unternehmen</p>
+          <h3>Kommerzielle Lizenz</h3>
+          <p>
+            Für jede gewerbliche Nutzung, auch rein intern. Wir stimmen Umfang und Einführung mit Ihnen ab.
+          </p>
+          <a class="button button-primary" href="#kontakt">Lizenz anfragen</a>
+        </article>
+        <article class="license-card">
+          <p class="license-kicker">Voraussetzungen</p>
+          <ul class="requirements">
+            <li>Windows 10 (ab Version 2004) oder Windows 11, 64 Bit</li>
+            <li>OneNote für Windows für die Wissensfunktionen</li>
+            <li>Zugang zu OpenAI, Azure OpenAI oder einem Kaldur Server</li>
+            <li>Installation als signiertes MSIX-Paket mit automatischen Updates</li>
+          </ul>
+        </article>
+      </div>
+      <p class="fine-print">Das Plugin-SDK steht unter der Apache License 2.0 und kann auch für proprietäre Plugins genutzt werden.</p>
+    </div>
+  </section>
+
+  <section class="section cta" id="kontakt">
+    <div class="shell cta-inner">
+      <h2>AInnotate im eigenen Team ausprobieren.</h2>
+      <p class="lead">
+        Schreiben Sie uns, mit welchen Anwendungen Ihr Team arbeitet. Wir richten einen Testzugang ein
+        und zeigen Ihnen AInnotate an Ihren eigenen Abläufen.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href="mailto:kontakt@algion.net?subject=AInnotate%20Testzugang">kontakt@algion.net</a>
+        <a class="button button-secondary" href="tel:+4952509947964">+49 5250 9947964</a>
+      </div>
+    </div>
+  </section>
+</SiteLayout>

@@ -1,0 +1,39 @@
+# Installed as /etc/caddy/sites/ainnotate.caddy on ssh.ainnotate.net (ssh2, hostname ainnotate-public-1).
+ainnotate.net {
+	root * /var/www/ainnotate.net/current
+	encode zstd gzip
+
+	header {
+		Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'none'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Content-Type-Options "nosniff"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+
+	@immutable path /_astro/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	file_server
+	handle_errors {
+		@notFound expression {err.status_code} == 404
+		rewrite @notFound /404.html
+		file_server
+	}
+
+	log {
+		output file /var/log/caddy/ainnotate-access.log {
+			roll_size 10MiB
+			roll_keep 7
+			roll_keep_for 168h
+		}
+		format json
+	}
+}
+
+# Installed AInnotate clients look for updates at https://www.ainnotate.net/download/AInnotate.appinstaller.
+# Whether and what /download/ serves is still open, so www only redirects for now.
+www.ainnotate.net {
+	redir https://ainnotate.net{uri} permanent
+}

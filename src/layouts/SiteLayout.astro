@@ -1,0 +1,96 @@
+---
+import { Picture } from 'astro:assets';
+import signet from '../assets/ainnotate-signet.png';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  page?: 'home' | 'legal' | 'privacy';
+  noindex?: boolean;
+}
+
+const { title, description, page, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const isHome = page === 'home';
+const anchor = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+const navigation = [
+  { label: 'So funktioniert’s', href: anchor('ablauf') },
+  { label: 'Funktionen', href: anchor('funktionen') },
+  { label: 'Integrationen', href: anchor('integrationen') },
+  { label: 'Lizenz', href: anchor('lizenz') },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f5f7fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a1122" media="(prefers-color-scheme: dark)" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AInnotate" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="de_DE" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Zum Inhalt springen</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="AInnotate Startseite">
+          <Picture src={signet} formats={['avif', 'webp']} densities={[1, 2]} width={40} height={40} alt="" class="brand-signet" />
+          <span class="brand-name">A<span class="brand-ai">I</span>nnotate</span>
+        </a>
+        <nav class="primary-nav" aria-label="Hauptnavigation">
+          {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+        <a class="button button-small" href={anchor('kontakt')}>Kontakt</a>
+      </div>
+    </header>
+
+    <main id="content">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <a class="brand brand-footer" href="/">
+            <Picture src={signet} formats={['avif', 'webp']} densities={[1, 2]} width={32} height={32} alt="" class="brand-signet" />
+            <span class="brand-name">A<span class="brand-ai">I</span>nnotate</span>
+          </a>
+          <p class="footer-statement">Die KI-Seitenleiste für Windows, die weiß, woran Sie arbeiten.</p>
+        </div>
+        <div class="footer-col">
+          <p class="eyebrow">Kontakt</p>
+          <a href="mailto:kontakt@algion.net?subject=AInnotate">kontakt@algion.net</a>
+          <a href="tel:+4952509947964">+49 5250 9947964</a>
+        </div>
+        <div class="footer-col">
+          <p class="eyebrow">Mehr von Algion</p>
+          <a href="https://kaldur.net">Kaldur <span aria-hidden="true">↗</span></a>
+          <a href="https://algion.net">Algion GmbH <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="footer-col">
+          <p class="eyebrow">Rechtliches</p>
+          <a href="/impressum" aria-current={page === 'legal' ? 'page' : undefined}>Impressum</a>
+          <a href="/datenschutz" aria-current={page === 'privacy' ? 'page' : undefined}>Datenschutz</a>
+        </div>
+      </div>
+      <div class="shell footer-bottom">
+        <span>© {new Date().getFullYear()} Algion GmbH</span>
+        <span>Entwickelt in Delbrück, Deutschland</span>
+      </div>
+    </footer>
+  </body>
+</html>

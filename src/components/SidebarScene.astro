@@ -1,0 +1,94 @@
+---
+// A drawn, data-neutral scene of AInnotate next to an ERP transaction. It replaces
+// screenshots, which would show real systems, customers or personal notebooks.
+import { Picture } from 'astro:assets';
+import signet from '../assets/ainnotate-signet.png';
+---
+
+<figure
+  class="scene"
+  role="img"
+  aria-label="AInnotate als Seitenleiste neben einer SAP-Transaktion: Die Seitenleiste erkennt die Transaktion, zeigt die passende Teamnotiz aus OneNote und füllt auf Wunsch Felder in der Anwendung aus."
+>
+  <div class="scene-desktop" aria-hidden="true">
+    <div class="app-window">
+      <div class="window-bar">
+        <span class="window-dots"><i></i><i></i><i></i></span>
+        <span class="window-title">Kundenauftrag anlegen: Einstieg</span>
+      </div>
+      <div class="app-body">
+        <div class="app-toolbar">
+          <span class="okcode">VA01</span>
+          <span class="tool"></span><span class="tool"></span><span class="tool"></span>
+        </div>
+        <p class="app-heading">Organisationsdaten</p>
+        <dl class="app-form">
+          <div class="field is-filled">
+            <dt>Auftragsart</dt>
+            <dd>TA <small>Terminauftrag</small></dd>
+          </div>
+          <div class="field is-filled">
+            <dt>Verkaufsorganisation</dt>
+            <dd>1000</dd>
+          </div>
+          <div class="field is-filled">
+            <dt>Vertriebsweg</dt>
+            <dd>10</dd>
+          </div>
+          <div class="field">
+            <dt>Sparte</dt>
+            <dd><span class="caret"></span></dd>
+          </div>
+        </dl>
+        <div class="app-lines">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <Picture src={signet} formats={['avif', 'webp']} densities={[1, 2]} width={22} height={22} alt="" />
+        <strong>AInnotate</strong>
+        <span class="live"><i></i>Kontext erkannt</span>
+      </div>
+
+      <div class="card card-context">
+        <span class="card-label">Aktive Anwendung</span>
+        <span class="card-title">SAP GUI · VA01</span>
+        <span class="card-meta">Kundenauftrag anlegen: Einstieg</span>
+      </div>
+
+      <div class="card card-note">
+        <span class="card-label">
+          <svg viewBox="0 0 16 16" width="12" height="12"><path d="M3 1.5h8.5a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H3zM5 1.5v13" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+          OneNote · Team Vertrieb
+        </span>
+        <span class="card-title">Kundenauftrag anlegen – Checkliste</span>
+        <span class="card-meta">Passende Seite gefunden, ohne KI-Aufruf</span>
+      </div>
+
+      <div class="chips">
+        <span class="chip">Welche Sparte gilt hier?</span>
+        <span class="chip">Checkliste prüfen</span>
+      </div>
+
+      <div class="chat">
+        <p class="bubble bubble-user">Leg den Auftrag für den Standardfall an.</p>
+        <div class="bubble bubble-ai">
+          <p>Erledigt bis zur Sparte. Laut Teamnotiz ist sie bei diesem Kunden <b>00</b>. Soll ich sie eintragen?</p>
+          <ul class="actions">
+            <li>Auftragsart = TA</li>
+            <li>Verkaufsorganisation = 1000</li>
+            <li>Vertriebsweg = 10</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="composer">
+        <span>Frage zu VA01 stellen …</span>
+        <i></i>
+      </div>
+    </aside>
+  </div>
+</figure>
