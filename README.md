@@ -27,6 +27,8 @@ The deployable site is written to `dist/`.
   `src/components/SidebarScene.astro` is drawn with neutral demo data on purpose; do not replace it
   with screenshots from real systems.
 - Only advertise released features. Customer-specific, demo and personal plugins are not listed.
+- Inform only: no licensing, pricing or purchase details yet. Do not feature assistants or agents
+  (they become skills later). Windows is the only platform.
 - Third-party product names describe compatibility only (see the trademark note in the legal notice).
 
 ## Deployment
