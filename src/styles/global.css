@@ -1073,3 +1073,60 @@ img {
     animation: none;
   }
 }
+
+/* Additions: wide row titles, own-plugin block, textual plugin kinds */
+
+.row-list-wide li {
+  grid-template-columns: 13rem 1fr;
+}
+
+.feature-index {
+  text-transform: uppercase;
+}
+
+.own-plugins {
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.own-plugins-head h3 {
+  margin-bottom: 1rem;
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+}
+
+.own-plugins-head p:last-child {
+  margin: 0;
+  color: #b5c0d2;
+}
+
+.own-plugin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  border: 1px solid #334056;
+  background: #334056;
+}
+
+.own-plugin-grid .feature-card {
+  min-height: 230px;
+}
+
+@media (max-width: 920px) {
+  .own-plugins {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .own-plugin-grid,
+  .row-list-wide li {
+    grid-template-columns: 1fr;
+  }
+
+  .own-plugin-grid .feature-card {
+    min-height: auto;
+  }
+}

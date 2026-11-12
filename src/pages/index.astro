@@ -27,8 +27,8 @@ const features = [
     text: 'Persönliche und Team-Notizbücher werden nach Relevanz durchsucht. Die genaueste Seite gewinnt.',
   },
   {
-    title: 'Die KI arbeitet mit',
-    text: 'Transaktionen starten, Felder füllen, Tabellenzeilen pflegen. Ausgeführte Aktionen lassen sich nachvollziehen und erneut ausführen.',
+    title: 'Aktionen nachvollziehen',
+    text: 'Jede Aktion, die die KI ausführt, wird angezeigt. Einzelne Schritte lassen sich prüfen und gezielt wiederholen.',
   },
   {
     title: 'Prompts aus OneNote',
@@ -45,14 +45,19 @@ const features = [
 ];
 
 const plugins = [
-  { name: 'SAP GUI', text: 'Bildschirme, Felder, Tabellen und ALV-Grids lesen und bedienen. Notizbücher passend zu System und Mandant.' },
-  { name: 'SAP-Entwicklung', text: 'ABAP-Quelltexte, Klassen, Funktionsbausteine und Transporte untersuchen, Daten lesend per OpenSQL prüfen.' },
-  { name: 'Jira Cloud', text: 'Tickets in natürlicher Sprache finden, Details zusammenfassen und Kommentare verfassen.' },
-  { name: 'Automic (UC4)', text: 'Jobs, Ausführungshistorie und Zeitpläne abfragen, ohne die Konsole zu wechseln.' },
-  { name: 'Windows Explorer', text: 'Ordner verstehen, Dateien finden, umbenennen und direkt als Wissen bereitstellen.' },
-  { name: 'Dateien und Excel', text: 'Dateien kopieren, umbenennen und speichern, Excel-Tabellen strukturiert auswerten.' },
-  { name: 'Firefox', text: 'Die aktuelle Webseite als Kontext nutzen, passende Notizen anzeigen und gezielt navigieren.' },
-  { name: 'Python', text: 'Python-Skripte als Werkzeuge einbinden – ideal für schnelle, fachspezifische Erweiterungen.' },
+  { kind: 'SAP · Frontend', name: 'SAP GUI', text: 'Bildschirme, Felder, Tabellen und ALV-Grids lesen und bedienen, Transaktionen starten. Notizbücher passend zu System und Mandant.' },
+  { kind: 'SAP · Backend', name: 'SAP-System', text: 'Direkt am System: ABAP-Quelltexte, Klassen, Funktionsbausteine und Transporte untersuchen, Daten lesend per OpenSQL prüfen.' },
+  { kind: 'Ticketsystem', name: 'Jira Cloud', text: 'Tickets in natürlicher Sprache finden, Details zusammenfassen und Kommentare verfassen.' },
+  { kind: 'Desktop', name: 'Windows Explorer', text: 'Ordner verstehen, Dateien finden, umbenennen und direkt als Wissen bereitstellen.' },
+  { kind: 'Dateien', name: 'Dateien und Excel', text: 'Dateien kopieren, umbenennen und speichern, Excel-Tabellen strukturiert auswerten.' },
+  { kind: 'Browser', name: 'Firefox', text: 'Die aktuelle Webseite als Kontext nutzen, passende Notizen anzeigen und gezielt navigieren.' },
+];
+
+const desktop = [
+  { title: 'Programme starten', text: 'Hinterlegte Startprofile öffnen Anwendungen mit den richtigen Parametern, ohne dass Sie Pfade oder Anmeldedaten suchen.' },
+  { title: 'Fenster bedienen', text: 'Schaltflächen drücken, Felder und Tabellen füllen, Tastatureingaben senden und zwischen Bildschirmen navigieren.' },
+  { title: 'Im richtigen Fenster arbeiten', text: 'Aufgaben lassen sich gezielt an ein geöffnetes Fenster binden, auch wenn mehrere Anwendungen gleichzeitig laufen.' },
+  { title: 'Unter Ihrer Aufsicht', text: 'Jede Aktion erscheint in der Seitenleiste. Mit Kaldur entscheidet der Server, welche Aktionen eine Freigabe brauchen.' },
 ];
 ---
 
@@ -68,8 +73,8 @@ const plugins = [
         <h1><span>Ihre Anwendung.</span> <span>Ihr Wissen.</span> <span>Ihre KI.</span></h1>
         <p class="lead">
           AInnotate sitzt als Seitenleiste neben der Windows-Anwendung, mit der Sie gerade arbeiten. Es
-          erkennt, wo Sie sind, zeigt die passende Dokumentation Ihres Teams aus OneNote und lässt die KI
-          direkt mitarbeiten – besonders dort, wo Software komplex ist.
+          erkennt, wo Sie sind, zeigt die passende Dokumentation Ihres Teams aus OneNote und steuert auf
+          Wunsch die laufenden Anwendungen auf Ihrem Desktop – besonders dort, wo Software komplex ist.
         </p>
         <div class="button-row">
           <a class="button button-primary" href="#ablauf">So funktioniert’s <span aria-hidden="true">→</span></a>
@@ -153,6 +158,27 @@ const plugins = [
     </div>
   </section>
 
+  <section class="section" id="desktop">
+    <div class="shell split">
+      <div>
+        <p class="eyebrow">Desktop-Anwendungen steuern</p>
+        <h2>Die KI bedient Ihre Anwendungen.</h2>
+        <p class="lead">
+          AInnotate beantwortet nicht nur Fragen. Über seine Plugins steuert es die Anwendungen, die auf
+          Ihrem Desktop laufen – vom Start eines Programms bis zum ausgefüllten Formular.
+        </p>
+      </div>
+      <ul class="row-list row-list-wide">
+        {desktop.map((item) => (
+          <li>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <section class="section dark-section" id="plugins">
     <div class="shell">
       <div class="section-header">
@@ -161,24 +187,40 @@ const plugins = [
           <h2>Viele Plugins. Und Ihre eigenen.</h2>
         </div>
         <p class="lead">
-          Jedes Plugin bringt AInnotate einer Anwendung näher: Es versteht deren Bildschirme und stellt der
-          KI passende Werkzeuge bereit. Was fehlt, entwickeln Sie selbst.
+          Jedes Plugin macht eine Anwendung für AInnotate verständlich und steuerbar: Es liest deren
+          Bildschirme und stellt der KI passende Werkzeuge bereit. Für SAP gibt es Plugins für das Frontend
+          und das Backend.
         </p>
       </div>
       <ul class="feature-grid plugin-grid">
-        {plugins.map((plugin, index) => (
+        {plugins.map((plugin) => (
           <li class="feature-card">
-            <span class="feature-index">P{String(index + 1).padStart(2, '0')}</span>
+            <span class="feature-index">{plugin.kind}</span>
             <h3>{plugin.name}</h3>
             <p>{plugin.text}</p>
           </li>
         ))}
-        <li class="feature-card feature-card-own">
-          <span class="feature-index">Ihr Plugin</span>
-          <h3>Ihre Anwendung</h3>
-          <p>Mit dem Plugin-SDK binden Sie Fachanwendungen in C# oder Python selbst an – auch nur für den eigenen Betrieb.</p>
-        </li>
       </ul>
+
+      <div class="own-plugins">
+        <div class="own-plugins-head">
+          <p class="eyebrow">Eigene Plugins</p>
+          <h3>Entwickeln Sie Plugins in C# oder Python.</h3>
+          <p>Was fehlt, binden Sie selbst an – auch Fachanwendungen, die nur in Ihrem Betrieb laufen.</p>
+        </div>
+        <div class="own-plugin-grid">
+          <article class="feature-card feature-card-own">
+            <span class="feature-index">C# · .NET</span>
+            <h3>Tiefe Integration</h3>
+            <p>Mit dem Plugin-SDK erkennt Ihr Plugin eigene Fenster, liest deren Inhalte und stellt Aktionen bereit, die die KI ausführen kann.</p>
+          </article>
+          <article class="feature-card feature-card-own">
+            <span class="feature-index">Python</span>
+            <h3>Schnell erweitert</h3>
+            <p>Python-Plugins werden direkt zu Werkzeugen der KI – ideal, um Skripte, Datenquellen und Schnittstellen ohne C# anzubinden.</p>
+          </article>
+        </div>
+      </div>
     </div>
   </section>
 
